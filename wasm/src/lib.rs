@@ -5,8 +5,7 @@
 ////////////////////////////////////////////////////
 
 // Init:                                 1
-// Upgrade:                              1
-// Endpoints:                            0
+// Endpoints:                            1
 // Async Callback (empty):               1
 // Total number of exported functions:   3
 
@@ -19,7 +18,7 @@ multiversx_sc_wasm_adapter::endpoints! {
     contract
     (
         init => init
-        upgrade => upgrade
+        transfer_received => transfer_received
     )
 }
 
