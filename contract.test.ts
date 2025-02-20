@@ -1,13 +1,15 @@
 import { expect, test } from "vitest";
 import { FSWorld } from "xsuite";
-import { fsproxyBinaryPath } from "@xsuite/full-simulnet";
 
 test("Doesn't have completedTxEvent", async () => {
   using world = await FSWorld.start({
-    binaryPath: fsproxyBinaryPath,
     saveLogs: true,
     gasPrice: 0,
   });
+  // using world = FSWorld.new({
+  //   proxyUrl: "http://localhost:37113",
+  //   gasPrice: 0,
+  // });
 
   const wallet1 = await world.createWallet({
     address: { shard: 0 },
