@@ -2,11 +2,11 @@ import { expect, test } from "vitest";
 import { FSWorld } from "xsuite";
 
 test("Doesn't have completedTxEvent", async () => {
-  using world = await FSWorld.start({ gasPrice: 0 });
-  // using world = FSWorld.new({
-  //   proxyUrl: "http://localhost:37113",
-  //   gasPrice: 0,
-  // });
+  using simulnet = await FSWorld.startSimulnet();
+  const world = FSWorld.new({
+    proxyUrl: simulnet.proxyUrl,
+    gasPrice: 0,
+  });
 
   await world.advanceToEpoch(2);
 
@@ -36,7 +36,11 @@ test("Doesn't have completedTxEvent", async () => {
 });
 
 test("Has completedTxEvent", async () => {
-  using world = await FSWorld.start({ gasPrice: 0 });
+  using simulnet = await FSWorld.startSimulnet();
+  const world = FSWorld.new({
+    proxyUrl: simulnet.proxyUrl,
+    gasPrice: 0,
+  });
 
   await world.advanceToEpoch(2);
 
