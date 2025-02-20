@@ -1,19 +1,24 @@
 import { expect, test } from "vitest";
 import { FSWorld } from "xsuite";
+import { fsproxyBinaryPath } from "@xsuite/full-simulnet";
 
 test("Doesn't have completedTxEvent", async () => {
-  using world = await FSWorld.start({ gasPrice: 0 });
+  using world = await FSWorld.start({
+    binaryPath: fsproxyBinaryPath,
+    saveLogs: true,
+    gasPrice: 0,
+  });
 
   const wallet1 = await world.createWallet({
-    address: "erd1qyqqqqqyqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqslu4kj",
+    address: { shard: 0 },
     kvs: { esdts: [{ id: fftId, amount: 1 }] },
   });
   const contract = await world.createContract({
-    address: "erd1qqqqqqqqqqqqqpgqqqqqqpgqqqqqqqqqqqqqqqqqqqqqqqqqqqqsu78c77",
+    address: { shard: 1 },
     code: "file:output/contract.wasm",
   });
   const wallet2 = await world.createWallet({
-    address: "erd1qyqqqqqxqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqrq8dtejy",
+    address: { shard: 2 },
   });
 
   const txHash = await wallet1.sendCallContract({
@@ -33,15 +38,15 @@ test("Has completedTxEvent", async () => {
   using world = await FSWorld.start({ gasPrice: 0 });
 
   const wallet1 = await world.createWallet({
-    address: "erd1qyqqqqqyqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqslu4kj",
+    address: { shard: 0 },
     kvs: { esdts: [{ id: fftId, amount: 1 }] },
   });
   const contract = await world.createContract({
-    address: "erd1qqqqqqqqqqqqqpgqqqqqqpgqqqqqqqqqqqqqqqqqqqqqqqqqqqqsu78c77",
+    address: { shard: 1 },
     code: "file:output/contract.wasm",
   });
   const wallet2 = await world.createWallet({
-    address: "erd1qyqqqqqrqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqpsrqjmjy", // Only change
+    address: { shard: 1 }, // only change
   });
 
   const txHash = await wallet1.sendCallContract({
