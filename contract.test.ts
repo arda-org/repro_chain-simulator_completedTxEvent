@@ -2,14 +2,13 @@ import { expect, test } from "vitest";
 import { FSWorld } from "xsuite";
 
 test("Doesn't have completedTxEvent", async () => {
-  using world = await FSWorld.start({
-    saveLogs: true,
-    gasPrice: 0,
-  });
+  using world = await FSWorld.start({ gasPrice: 0 });
   // using world = FSWorld.new({
   //   proxyUrl: "http://localhost:37113",
   //   gasPrice: 0,
   // });
+
+  await world.advanceToEpoch(2);
 
   const wallet1 = await world.createWallet({
     address: { shard: 0 },
@@ -38,6 +37,8 @@ test("Doesn't have completedTxEvent", async () => {
 
 test("Has completedTxEvent", async () => {
   using world = await FSWorld.start({ gasPrice: 0 });
+
+  await world.advanceToEpoch(2);
 
   const wallet1 = await world.createWallet({
     address: { shard: 0 },
