@@ -8,7 +8,7 @@ test("Doesn't have completedTxEvent", async () => {
     gasPrice: 0,
   });
 
-  await world.advanceToEpoch(2);
+  await world.advanceToEpoch(10);
 
   const wallet1 = await world.createWallet({
     address: { shard: 0 },
@@ -30,7 +30,7 @@ test("Doesn't have completedTxEvent", async () => {
     gasLimit: 10_000_000,
   });
   await world.generateBlocks(20);
-  const tx = await world.proxy.getTx(txHash);
+  const tx = await world.proxy.getTxData(txHash);
   const stringifiedTx = JSON.stringify(tx, null, 2);
   expect(stringifiedTx).not.toContain("completedTxEvent");
 });
@@ -41,8 +41,8 @@ test("Has completedTxEvent", async () => {
     proxyUrl: simulnet.proxyUrl,
     gasPrice: 0,
   });
-
-  await world.advanceToEpoch(2);
+  
+  await world.advanceToEpoch(10);
 
   const wallet1 = await world.createWallet({
     address: { shard: 0 },
@@ -64,7 +64,7 @@ test("Has completedTxEvent", async () => {
     gasLimit: 10_000_000,
   });
   await world.generateBlocks(20);
-  const tx = await world.proxy.getTx(txHash);
+  const tx = await world.proxy.getTxData(txHash);
   const stringifiedTx = JSON.stringify(tx, null, 2);
   expect(stringifiedTx).toContain("completedTxEvent");
 });
